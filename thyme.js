@@ -14,7 +14,6 @@
 
 var fs = require('fs');
 var shortid = require('shortid');
-
 global.resp_mqtt_ri_arr = [];
 
 global.resp_mqtt_path_arr = {};
@@ -34,6 +33,7 @@ global.mqtt_client = null;
 // AE core
 if(conf.useprotocol === 'mqtt') {
     require('./mqtt_app');
+	require('./act.js');
 }
 else if(conf.useprotocol === 'coap') {
     require('./coap_app');

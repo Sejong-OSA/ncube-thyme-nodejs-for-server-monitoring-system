@@ -27,7 +27,7 @@ conf.sim = "disable"; // enable / disable
 
 // build cse
 // cse.host = "203.250.148.89"; //'59.10.2.16';
-cse.host = "127.0.0.1";
+cse.host = "192.168.1.66";
 cse.port = "7579";
 cse.name = "Mobius";
 cse.id = "/Mobius2";
@@ -57,8 +57,12 @@ cnt_arr[count++].name = "hum";
 
 cnt_arr[count] = {};
 cnt_arr[count].parent = "/" + cse.name + "/" + ae.name;
-cnt_arr[count++].name = "fan";
+cnt_arr[count++].name = "fan1";
 
+
+cnt_arr[count] = {};
+cnt_arr[count].parent = "/" + cse.name + "/" + ae.name;
+cnt_arr[count++].name = "fan2";
 //cnt_arr[count] = {};
 //cnt_arr[count].parent = '/' + cse.name + '/' + ae.name;
 //cnt_arr[count++].name = 'timer';
@@ -84,10 +88,15 @@ sub_arr[count].parent = "/" + cse.name + "/" + ae.name + "/" + cnt_arr[1].name;
 sub_arr[count].name = "subHum";
 sub_arr[count++].nu = "mqtt://" + cse.host + "/" + ae.id + "?ct=" + ae.bodytype; // mqtt
 
-// Publish Fan
+
 sub_arr[count] = {};
 sub_arr[count].parent = "/" + cse.name + "/" + ae.name + "/" + cnt_arr[2].name;
-sub_arr[count].name = "subFan";
+sub_arr[count].name = "subFan2";
+sub_arr[count++].nu = "mqtt://" + cse.host + "/" + ae.id + "?ct=" + ae.bodytype; // mqtt
+
+sub_arr[count] = {};
+sub_arr[count].parent = "/" + cse.name + "/" + ae.name + "/" + cnt_arr[3].name;
+sub_arr[count].name = "subFan1";
 sub_arr[count++].nu = "mqtt://" + cse.host + "/" + ae.id + "?ct=" + ae.bodytype; // mqtt
 
 //sub_arr[count++].nu = 'http://' + ip.address() + ':' + ae.port + '/noti?ct=json'; // http
