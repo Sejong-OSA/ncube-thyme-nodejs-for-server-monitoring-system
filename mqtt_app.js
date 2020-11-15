@@ -161,7 +161,6 @@ function mqtt_message_handler(topic, message) {
           Date.UTC(year, month, today, hours, minutes, seconds)
         );
 	
-	//TODO : deal with fan
 	if(obj.dataType === "fan1"){
 		if(obj.data === on){ fan1.writeSync(active_low(parseInt(on))) }
 		else if(obj.data === off) { fan1.writeSync(active_low(parseInt(off))) }
