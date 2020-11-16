@@ -20,6 +20,15 @@ var url = require("url");
 var cbor = require("cbor");
 var request = require("request");
 
+const Gpio = require('onoff').Gpio;
+const sensor = require("node-dht-sensor");
+
+const fan1= new Gpio(22, 'out');
+const fan2 = new Gpio(27, 'out');
+
+const on = "1"
+const off = "0"
+
 global.req_topic =
   "/oneM2M/req/" + conf.ae.id + conf.cse.id + "/" + conf.ae.bodytype;
 
@@ -30,6 +39,10 @@ var noti_topic = "/oneM2M/req/+/" + conf.ae.id + "/#";
 global.sh_adn = require("./mqtt_adn");
 var noti = require("./noti");
 var tas = require("./thyme_tas");
+
+function active_low(power){
+	return power === 0 ? 1 : 0;
+}
 
 function mqtt_message_handler(topic, message) {
   var topic_arr = topic.split("/");
@@ -147,6 +160,16 @@ function mqtt_message_handler(topic, message) {
         obj.created_at = new Date(
           Date.UTC(year, month, today, hours, minutes, seconds)
         );
+	
+	if(obj.dataType === "fan1"){
+		if(obj.data === on){ fan1.writeSync(active_low(parseInt(on))) }
+		else if(obj.data === off) { fan1.writeSync(active_low(parseInt(off))) }
+		else { console.log("data value error"); }
+	} else if (obj.dataType == "fan2"){
+		if(obj.data === on){ fan2.writeSync(active_low(parseInt(on))) }
+		else if(obj.data === off) { fan2.writeSync(active_low(parseInt(off))) }
+		else { console.log("data value error"); }
+	}
 
         console.log(obj);
 
